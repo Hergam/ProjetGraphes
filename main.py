@@ -4,4 +4,5 @@ numTableau = input("Enter table to test :")
 
 matrice = matrice_graphe(numTableau)
 
-adjacence(matrice)
+print(verif(matrice))
+
