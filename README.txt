@@ -1,2 +1,1 @@
-run
-pip install tabulate
+run `pip install tabulate`
