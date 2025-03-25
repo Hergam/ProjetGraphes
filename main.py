@@ -1,14 +1,13 @@
+from tabulate import tabulate
+
+
 
 numTableau = input("Enter table to test :")
 f = open("contraintes/table "+str(numTableau)+".txt", "r")
 texte = f.readlines()
-tableau = [[]]
+
+tableau = []
 for i in range(len(texte)):
-    splittedLine = texte[i].split()
-    tableau[i][0]=splittedLine[0]
-    tableau[i][1]=splittedLine[1]
-    for j in range(2,len(splittedLine)):
-        tableau[i][j]=splittedLine[j]
+    texte[i] = texte[i].split()
 
-print(tableau)
-
+print(tabulate(texte, headers=['Sommet', 'Durée', '1','2','3','4']))
