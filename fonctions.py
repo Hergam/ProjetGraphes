@@ -47,29 +47,55 @@ def adjacence(matrice):
     #print(tabulate(matAdj, headers=sommets))
     #Pour le test de la matrice d'adjacence
 
-def verif(matrice):
+def detectionCircuit(matrice):
     matAdj = adjacence(matrice)
     dim = range(len(matAdj))
     #sommets=range(len(matrice)) # pour les tests
-    deleted = []
-    
+    deleted = [[None for i in dim] for j in dim]
     for iteration in dim:
-        deletable = False
+        deletable = []
         for j in dim:
             prede=[]
             for i in dim:
                 if matAdj[i][j]==1:
                     prede.append(i);
-            if not prede and j not in deleted:
-                deletable = j
-        if deletable!=[]:
-            for j in dim:
-                matAdj[deletable][j]=0
-            deleted.append(deletable)
+            jDejaDeleted = any(j in ligne for ligne in deleted)
+            if not prede and not jDejaDeleted:
+                deletable.append(j)
+        if deletable:
+            for i in deletable:
+                for j in dim:
+                    matAdj[i][j]=0
+            for j in range(len(deletable)):
+                deleted[iteration][j]=deletable[j]
+        deletable = []
+    
+    #diminution de la taille de la table deleted vers la taille nécéssaire
+    lastColNotEmpty=0
+    deleted = [ligne for ligne in deleted if any(cell is not None for cell in ligne)]
+    for i in range(len(deleted)):
+        for j in dim:
+            if deleted[i][j] is not None and lastColNotEmpty<j:
+                lastColNotEmpty=j
+    deleted = [ligne[:lastColNotEmpty + 1] for ligne in deleted]
+
+    return matAdj,deleted
+
+def verif(matrice):
+    
+    matAdj,rangs = detectionCircuit(matrice)
         #print(tabulate(matAdj, headers=sommets)) # pour les tests
-    if not(all(all(case == 0 for case in ligne) for ligne in matAdj)):
-        print("\n\nCe graphe contient un circuit")
-        return False
+    if not(all(all(case == 0 for case in ligne) for ligne in matAdj)): #teste si la matrice n'a que des 0
+        print("\nCe graphe contient un circuit\n")
+        return False,rangs
     else:
-        print("Ce graphe ne contient pas de circuit")
+        print("\nCe graphe ne contient pas de circuit\n")
+    for i in range(len(matrice)):
+        if matrice[i][1]<0:
+            print("\nCe graphe contient un arc a valeur négative\n")
+        else:
+            print("Ce graphe ne contient pas d'arc a valeur négative\n")
+            return True,rangs
+    
+    
     
