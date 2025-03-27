@@ -109,3 +109,36 @@ def verif(matrice):
             return True,rangs
     
     
+def dateTot(matrice,rangs):
+    dateTo=[]
+
+    return dateTo
+
+def dateTard(matrice, rangs):
+    matAdj = adjacencePond(matrice)
+    dateTo= [0,0,0,3,2,7]
+    rangs.reverse()
+    flatRangs = [item for sublist in rangs for item in sublist]
+    dateTa=[999]*len(matAdj)
+    dateTa[len(matAdj)-1]=dateTo[len(matAdj)-1]
+    for i, cell in enumerate(flatRangs):
+        if i > 0:
+            if cell is not None:    
+                ligneAdj = matAdj[cell]
+            
+                succ = []
+                for j,z in enumerate(ligneAdj):
+                    if z is not None:
+                        succ.append(j)
+                for z in succ:
+                    print(dateTa[cell],dateTa[z])
+                    if dateTa[cell]>=dateTa[z]:
+                        
+                        dateTa[cell]=dateTa[z]
+                dateTa[cell]-=matrice[cell][1]
+                
+    return dateTa
+
+                    
+                
+

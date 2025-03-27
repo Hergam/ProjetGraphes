@@ -15,7 +15,6 @@ else:
         head.append("r="+str(i))
     transposed_rangs = list(map(list, zip(*rangs)))
     print(tabulate(transposed_rangs, headers=head))
-
-print(tabulate(adjacence(matrice)))
-print(tabulate(adjacencePond(matrice)))
+    dateAuPlusTard=dateTard(matrice,rangs)
+    print(dateAuPlusTard)
 
