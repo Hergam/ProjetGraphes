@@ -35,13 +35,24 @@ def matrice_graphe(numTableau):
 def adjacence(matrice):
     dim=len(matrice)
     
-    matAdj = [[0 for i in range(dim)] for j in range(dim)]
+    matAdj = [[None for i in range(dim)] for j in range(dim)]
     for i in range(dim):
         for j in range(2,len(matrice[i])):
             pred=matrice[i][j]
             matAdj[pred][i]=1
     
     return matAdj
+
+def adjacencePond(matrice):
+    dim=len(matrice)
+    
+    matAdjPond = [[None for i in range(dim)] for j in range(dim)]
+    for i in range(dim):
+        for j in range(2,len(matrice[i])):
+            pred=matrice[i][j]
+            matAdjPond[pred][i]=matrice[pred][1]
+    
+    return matAdjPond
     
     #sommets=range(len(matrice)) 
     #print(tabulate(matAdj, headers=sommets))
@@ -96,6 +107,5 @@ def verif(matrice):
         else:
             print("Ce graphe ne contient pas d'arc a valeur négative\n")
             return True,rangs
-    
     
     
