@@ -6,12 +6,13 @@ def matrice_graphe(numTableau):
 
     ligneW=[]
     ligneA=[]
-    sommets=range(1,len(matrice));
+    sommets=range(1,len(matrice)+1);
 
     for n in sommets:
         ligneW.append(n)
 
     for i in range(len(matrice)):
+        
         matrice[i] = matrice[i].split()
         for j in range(len(matrice[i])):
             matrice[i][j]=int(matrice[i][j])
@@ -20,6 +21,7 @@ def matrice_graphe(numTableau):
                     ligneW.remove(matrice[i][j])
             if len(matrice[i])<3:
                 matrice[i].append(0)
+        print(ligneW)
             
 
     matrice.insert(0,[0,0])
@@ -65,6 +67,7 @@ def detectionCircuit(matrice):
     deleted = [[None for i in dim] for j in dim]
     for iteration in dim:
         deletable = []
+        
         for j in dim:
             prede=[]
             for i in dim:
