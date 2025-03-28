@@ -21,7 +21,6 @@ def matrice_graphe(numTableau):
                     ligneW.remove(matrice[i][j])
             if len(matrice[i])<3:
                 matrice[i].append(0)
-        print(ligneW)
             
 
     matrice.insert(0,[0,0])
