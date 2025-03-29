@@ -1,47 +1,54 @@
 from tabulate import tabulate
 
-def matrice_graphe(numTableau):
+def matrice_graphe(numTableau): 
     f = open("contraintes/table "+str(numTableau)+".txt", "r")
     matrice = f.readlines()
+    
+    #On ouvre le fichier texte et met chaque ligne dans une liste.
 
     ligneW=[]
-    ligneA=[]
-    sommets=range(1,len(matrice)+1);
+    sommets=range(1,len(matrice)+1)
+    #étant donné qu'on va ajouter 2 sommets (alpha et w), 
+    # on doit créer les sommets allant de 1 à N (range(4)=[0,1,3])
+
 
     for n in sommets:
-        ligneW.append(n)
+        ligneW.append(n) #j'initialise une ligne dans laquelle on va mettre les informations relatant au sommet w
+        #On met d'abord dans cette liste tout les sommets du graphe. Dans l'étape suivante, on enlevera de cette liste
+        #tout les sommets ayant un ou plusieurs ,(c'est a dire tout les sommets ayant deja un succésseur)
 
     for i in range(len(matrice)):
         
-        matrice[i] = matrice[i].split()
+        matrice[i] = matrice[i].split() #Je split les lignes du fichier texte pour qu'il ne reste que les nombres, sans les espaces.
         for j in range(len(matrice[i])):
-            matrice[i][j]=int(matrice[i][j])
+            matrice[i][j]=int(matrice[i][j]) #Je converti le texte en nombre entier
             if j>1:
-                if matrice[i][j] in ligneW:
-                    ligneW.remove(matrice[i][j])
+                if matrice[i][j] in ligneW: #J'enleve les sommets présent dans les prédécesseurs d'un sommets de la ligneW
+                    ligneW.remove(matrice[i][j]) # Afin qu'il ne reste que les sommets n'ayant pas de succésseur.
             if len(matrice[i])<3:
                 matrice[i].append(0)
             
 
-    matrice.insert(0,[0,0])
+    matrice.insert(0,[0,0]) #j'ajoute a début de ma matrice de graphe la ligne [0,0] correspondant au sommet alpha
 
-    ligneW.insert(0,len(matrice))
-    ligneW.insert(1,0)
+    ligneW.insert(0,len(matrice)) # j'ajoute le reste des informations concernant le sommet w
+    ligneW.insert(1,0) 
 
-    matrice.append(ligneW)
+    matrice.append(ligneW) #j'insert a la fin du graphe la ligne concernant le sommet w
 
-    print(tabulate(matrice, headers=['Sommet', 'Durée', '1','2','3','4']))
+    print(tabulate(matrice, headers=['Sommet', 'Durée', '1','2','3','4'])) #Affichage joli de la matrice avec tabulate
     return matrice
 
 def adjacence(matrice):
     dim=len(matrice)
     
-    matAdj = [[None for i in range(dim)] for j in range(dim)]
+    matAdj = [[None for i in range(dim)] for j in range(dim)] #création de la matrice d'adjacence de taille [nombre de sommets]
     for i in range(dim):
         for j in range(2,len(matrice[i])):
-            pred=matrice[i][j]
+            pred=matrice[i][j] 
             matAdj[pred][i]=1
-    
+    #Pour chaque sommet, je regarde les prédécesseurs de celui-ci, et met un 1 dans la colonne correspondante au sommet
+
     return matAdj
 
 def adjacencePond(matrice):
@@ -52,7 +59,9 @@ def adjacencePond(matrice):
         for j in range(2,len(matrice[i])):
             pred=matrice[i][j]
             matAdjPond[pred][i]=matrice[pred][1]
-    
+    #Meme chose que pour la matrice adjacence mais a la place d'un 1, je met la durée de la tache, 
+    # afin d'avoir toute les informations nécéssaires dans la matrice
+
     return matAdjPond
     
     #sommets=range(len(matrice)) 
@@ -63,15 +72,22 @@ def detectionCircuit(matrice):
     matAdj = adjacence(matrice)
     dim = range(len(matAdj))
     #sommets=range(len(matrice)) # pour les tests
-    deleted = [[None for i in dim] for j in dim]
-    for iteration in dim:
-        deletable = []
+    deleted = [[None for i in dim] for j in dim] 
+    #La matrice deleted contient tout les sommets étant supprimés du graphes par ordre de rang
+
+    for iteration in dim: #Pour chaque itération de l'algo faire : 
+        #(On utilise le nombre de sommets du graphe comme nombre d'iteration max ; 
+        # il ne peut pas avoir plus d'iterations que de sommets)
+
+        deletable = [] #La liste deletable contiendra tout les sommets n'ayant 
+                        #pas de prédécésseurs dans l'itération actuelle
         
-        for j in dim:
+        for j in dim: # Pour chaque sommet du graphe faire : 
             prede=[]
-            for i in dim:
+            for i in dim:  #cette boucle permet de mettre tout les prédecésseurs du sommet i dans la liste prede
                 if matAdj[i][j]==1:
-                    prede.append(i);
+                    prede.append(i); 
+           
             jDejaDeleted = any(j in ligne for ligne in deleted)
             if not prede and not jDejaDeleted:
                 deletable.append(j)
