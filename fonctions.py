@@ -149,8 +149,8 @@ def dateTot(matrice,rangs):
 def dateTard(matrice, rangs):
     matAdj = adjacencePond(matrice)
     dateTo= dateTot(matrice,rangs)
-    rangs.reverse()
-    flatRangs = [item for sublist in rangs for item in sublist]
+    rangs_inverses = list(reversed(rangs))
+    flatRangs = [item for sublist in rangs_inverses for item in sublist]
     dateTa=[999]*len(matAdj)
     dateTa[len(matAdj)-1]=dateTo[len(matAdj)-1]
     for i, cell in enumerate(flatRangs):
@@ -169,6 +169,71 @@ def dateTard(matrice, rangs):
                 dateTa[cell]-=matrice[cell][1]
                 
     return dateTa
+
+def calcul_marges(matrice, rangs):
+    d_tot = dateTot(matrice,rangs)
+    d_tard = dateTard(matrice,rangs)
+    print(d_tard)
+    print(d_tot)
+    #Calcul de la marge totale
+    marge_totale = []
+    for i in range (len(matrice)):
+        marge = d_tard[i] - d_tot[i]
+        marge_totale.append(marge)
+
+    marge_libre = []
+    for i in range (len(matrice)):
+        successeurs = []
+
+        
+        for j in range (len(matrice)):
+            if i in matrice[j][2:]:
+                successeurs.append(j)
+               
+        
+        if successeurs:
+            min_d_tot_succ = d_tot[successeurs[0]]
+            for j in successeurs:
+                if d_tot[j] < min_d_tot_succ:
+                    min_d_tot_succ = d_tot[j]
+            marge = min_d_tot_succ - (d_tot[i] + matrice[i][1])
+        
+        else:
+            marge = marge_totale[i]
+        
+        marge_libre.append(marge)
+
+
+    print("\nRÉCAPITULATIF DES MARGES :")
+    print(tabulate(
+    [[i, d_tot[i], d_tard[i], marge_totale[i], marge_libre[i]] for i in range(len(matrice))],
+    headers=["Tâche", "D. au plus tôt", "D. au plus tard", "Marge Totale", "Marge Libre"]
+    ))
+
+    trouver_chemins_critiques(matrice, marge_totale)
+    
+
+def trouver_chemins_critiques(matrice, marge_totale):
+    # Fonction interne récursive pour faire une recherche en profondeur 
+    def dfs(chemin, noeud_actuel, tous_les_chemins):
+        # Si on atteint le dernier sommet (tâche de fin), on ajoute le chemin trouvé
+        if noeud_actuel == len(matrice) - 1:
+            tous_les_chemins.append(list(chemin))  
+            return
+        
+        for i in range(len(matrice)):
+            # Si la tâche actuelle est un prédécesseur de la tâche i
+            if noeud_actuel in matrice[i][2:] and marge_totale[i] == 0:
+                chemin.append(i)            # On ajoute i au chemin en cours
+                dfs(chemin, i, tous_les_chemins)  # Appel récursif depuis la tâche i
+                chemin.pop()               
+
+    tous_les_chemins = []
+    dfs([0], 0, tous_les_chemins)
+    print("\nCHEMINS CRITIQUES :")
+    for chemin in tous_les_chemins:
+        print(" → ".join(map(str, chemin)))
+
 
                     
                 
