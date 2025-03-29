@@ -36,7 +36,6 @@ def matrice_graphe(numTableau):
 
     matrice.append(ligneW) #j'insert a la fin du graphe la ligne concernant le sommet w
 
-    print(tabulate(matrice, headers=['Sommet', 'Durée', '1','2','3','4'])) #Affichage joli de la matrice avec tabulate
     return matrice
 
 def adjacence(matrice):
@@ -88,15 +87,17 @@ def detectionCircuit(matrice):
                 if matAdj[i][j]==1:
                     prede.append(i); 
            
-            jDejaDeleted = any(j in ligne for ligne in deleted)
+            jDejaDeleted = any(j in ligne for ligne in deleted) # check si le sommet a deja été supprimé
             if not prede and not jDejaDeleted:
-                deletable.append(j)
+                deletable.append(j) #Si la liste des prédécésseurs est vide et si il n'a pas deja été supprimé, on ajoute
+                                    # j à la liste des sommets supprimable.
         if deletable:
             for i in deletable:
                 for j in dim:
-                    matAdj[i][j]=0
+                    matAdj[i][j]=0 # Mise a 0 des lignes correspondant aux successeurs des sommets supprimable 
             for j in range(len(deletable)):
-                deleted[iteration][j]=deletable[j]
+                deleted[iteration][j]=deletable[j] # Ajout a la liste deleted des sommets ayant été supprimé a l'iteration
+                                                #actuelle. Cette liste deviens ainsi les rangs du graphes.
         deletable = []
     
     #diminution de la taille de la table deleted vers la taille nécéssaire
@@ -110,63 +111,57 @@ def detectionCircuit(matrice):
 
     return matAdj,deleted
 
-def verif(matrice):
+def verif(matrice,f):
     
     matAdj,rangs = detectionCircuit(matrice)
         #print(tabulate(matAdj, headers=sommets)) # pour les tests
-    if not(all(all(case == 0 for case in ligne) for ligne in matAdj)): #teste si la matrice n'a que des 0
-        print("\nCe graphe contient un circuit\n")
+    if not(all(all(case == 0 for case in ligne) for ligne in matAdj)): #teste si la matrice de la detection de circuit n'a que des 0
+                                                                    # (si la matrice de la detection de circuit n'a pas que des 0,
+                                                                    # il y a un circuit dans le graphe.)
+        print("\nCe graphe contient un circuit\n", file=f)
         return False,rangs
     else:
-        print("\nCe graphe ne contient pas de circuit\n")
+        print("\nCe graphe ne contient pas de circuit\n", file=f)
     for i in range(len(matrice)):
-        if matrice[i][1]<0:
-            print("\nCe graphe contient un arc a valeur négative\n")
+        if matrice[i][1]<0: # Check que pour toutes les durées des taches elles ne soient pas négatives
+            print("\nCe graphe contient un arc a valeur négative\n", file=f)
         else:
-            print("Ce graphe ne contient pas d'arc a valeur négative\n")
+            print("Ce graphe ne contient pas d'arc a valeur négative\n", file=f)
             return True,rangs
     
     
 def dateTot(matrice,rangs):
     matAdj = adjacencePond(matrice)
-    flatRangs = [item for sublist in rangs for item in sublist]
-    dateTo=[0]*len(matAdj)
-    dateTo[0]=0
-    for i, cell in enumerate(flatRangs):
-        if i > 0:
-            if cell is not None:    
+    flatRangs = [item for sublist in rangs for item in sublist if item is not None]
+    # met les sommets dans une liste par ordre de rangs croissant
+    dateTo=[0]*len(matAdj) # Initialise les dates au plus tot à 0 pour tout les sommets
+    for i, cell in enumerate(flatRangs): # chaque sommet dans la liste flatRangs (liste des sommets ordonnés par ordre croissant de rangs)
+        if i > 0:    
+            pred = matrice[cell][2:] #Récupère les prédécésseurs du sommet
 
-                pred = []
-                for j in range(2,len(matrice[cell])):
-                    pred.append(matrice[cell][j])
-
-                for z in pred:
-                    if dateTo[z]+matrice[z][1]>=dateTo[cell]:
-                        dateTo[cell]=dateTo[z]+matrice[z][1]
+            for z in pred: #Pour chaque prédécésseur du sommet faire
+                if dateTo[z]+matrice[z][1]>=dateTo[cell]: #si date au plus tot(prédécésseur)+Durée Tache(prédécésseur)>date au plus tot actuelle du sommet,
+                    dateTo[cell]=dateTo[z]+matrice[z][1]  # date au plus tot actuelle du sommet = date au plus tot(prédécésseur)+Durée Tache(prédécésseur)
                 
     return dateTo
 
 def dateTard(matrice, rangs):
     matAdj = adjacencePond(matrice)
     dateTo= dateTot(matrice,rangs)
-    rangs_inverses = list(reversed(rangs))
-    flatRangs = [item for sublist in rangs_inverses for item in sublist]
-    dateTa=[999]*len(matAdj)
-    dateTa[len(matAdj)-1]=dateTo[len(matAdj)-1]
-    for i, cell in enumerate(flatRangs):
+    rangs_inverses = list(reversed(rangs)) 
+    flatRangs = [item for sublist in rangs_inverses for item in sublist if item is not None] 
+    #met les sommets dans une liste par ordre de rangs décroissant
+    dateTa=[999]*len(matAdj) # initialise la date au plus tard de tout les sommets à 999
+    dateTa[len(matAdj)-1]=dateTo[len(matAdj)-1] # initialise la date au plus tard du sommet W à la date au plus tot du sommet W
+    for i, cell in enumerate(flatRangs): #Pour chaque sommet de la liste flatRangs
         if i > 0:
-            if cell is not None:    
-                ligneAdj = matAdj[cell]
-            
-                succ = []
-                for j,z in enumerate(ligneAdj):
-                    if z is not None:
-                        succ.append(j)
-                for z in succ:
-                    if dateTa[cell]>=dateTa[z]:
-                        
-                        dateTa[cell]=dateTa[z]
-                dateTa[cell]-=matrice[cell][1]
+            ligneAdj = matAdj[cell]
+        
+            succ = [j for j, z in enumerate(ligneAdj) if z is not None] #récupère les succésseurs du sommet actuel
+            for z in succ: # Pour chaque succésseurs du sommet actuel
+                if dateTa[cell]>=dateTa[z]: # si date au plus tard(sommet actuel) > date au plus tard(succésseurs)
+                    dateTa[cell]=dateTa[z] # alors date au plus tard(sommet actuel) = date au plus tard(succésseurs)
+            dateTa[cell]-=matrice[cell][1] #on enleve la durée de la tache du sommet à sa date au plus tard
                 
     return dateTa
 
@@ -201,41 +196,32 @@ def calcul_marges(matrice, rangs):
         
         marge_libre.append(marge)
 
-
-    print("\nRÉCAPITULATIF DES MARGES :")
-    print(tabulate(
-    [[i, d_tot[i], d_tard[i], marge_totale[i], marge_libre[i]] for i in range(len(matrice))],
-    headers=["Tâche", "D. au plus tôt", "D. au plus tard", "Marge Totale", "Marge Libre"]
-    ))
-
-    return marge_totale
-
-
+    return marge_totale, marge_libre
 
 def cheminsCritiques(matrice,marge_totale):
     matAdj = adjacencePond(matrice)
-    def dfs(chemin, noeud_actuel, tous_les_chemins):
-        chemin.append(noeud_actuel)  
-        if noeud_actuel == len(matrice) - 1:
-            tous_les_chemins.append(list(chemin))  
+
+    def dfs(chemin, noeud_actuel, tous_les_chemins): # Fonction récursive pour parcourir le graphe et trouver les chemins
+        chemin.append(noeud_actuel) # On ajoute au chemin actuel le sommet actuel
+        if noeud_actuel == len(matrice) - 1: # si le sommet actuel est W
+            tous_les_chemins.append(list(chemin)) #on ajoute le chemin a la liste de tout les chemins
             return
         ligneAdj = matAdj[noeud_actuel]
     
-        succ = [j for j, z in enumerate(ligneAdj) if z is not None]
-        for i in succ:
-            dfs(chemin,i,tous_les_chemins)
+        succ = [j for j, z in enumerate(ligneAdj) if z is not None] # récupération des succésseurs du sommet actuel
+        for i in succ: # Pour tout les succésseurs du sommet actuel, appeler la fonction récursive
+            dfs(chemin,i,tous_les_chemins) 
             chemin.pop()
     
     tous_les_chemins = []
-    dfs([], 0, tous_les_chemins)
+    dfs([], 0, tous_les_chemins) # initialisation de la fonction récursive au sommet alpha (0)
 
-    chemins_critiques = [
-        chemin for chemin in tous_les_chemins if all(marge_totale[i] <= 0 for i in chemin)
+    chemins_critiques = [ #On met dans la liste des chemins critique tout les chemins n'ayant que des sommet ayant une marge totale = 0
+        chemin for chemin in tous_les_chemins if all(marge_totale[i] == 0 for i in chemin) 
     ]
 
-    print("\nCHEMINS CRITIQUES :")
-    for chemin in chemins_critiques:
-        print(" → ".join(map(str, chemin)))
+    return chemins_critiques
+    
         
         
 

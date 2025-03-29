@@ -1,0 +1,47 @@
+  Sommet    Durée    1    2    3    4
+--------  -------  ---  ---  ---  ---
+       0        0
+       1        1    4    5   10
+       2        2    7
+       3        3    6   10
+       4        4    0
+       5        5    0
+       6        6    0
+       7        7    0
+       8        9    5    7
+       9        9    1    2    3    8
+      10       10    0
+      11        0    9
+
+Ce graphe ne contient pas de circuit
+
+Ce graphe ne contient pas d'arc a valeur négative
+
+
+RANGS :
+  r=0    r=1    r=2    r=3    r=4
+-----  -----  -----  -----  -----
+    0      4      1      9     11
+           5      2
+           6      3
+           7      8
+          10
+
+RÉCAPITULATIF DES MARGES :
+  Tâche    D. au plus tôt    D. au plus tard    Marge Totale    Marge Libre
+-------  ----------------  -----------------  --------------  -------------
+      0                 0                  0               0              0
+      1                10                 15               5              5
+      2                 7                 14               7              7
+      3                10                 13               3              3
+      4                 0                 11              11              6
+      5                 0                  2               2              2
+      6                 0                  7               7              4
+      7                 0                  0               0              0
+      8                 7                  7               0              0
+      9                16                 16               0              0
+     10                 0                  3               3              0
+     11                25                 25               0              0
+
+CHEMINS CRITIQUES :
+0 → 7 → 8 → 9 → 11
