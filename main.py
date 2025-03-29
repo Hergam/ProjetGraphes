@@ -15,10 +15,7 @@ else:
         head.append("r="+str(i))
     transposed_rangs = list(map(list, zip(*rangs)))
     print(tabulate(transposed_rangs, headers=head))
-    dateAuPlusTot=dateTot(matrice,rangs)
-    calcul_marges(matrice,rangs)
 
-    dateAuPlusTot=dateTot(matrice,rangs)
-    dateAuPlusTard=dateTard(matrice,rangs)
-    print(dateAuPlusTot)
-    print(dateAuPlusTard)
+    margeTot=calcul_marges(matrice,rangs)
+
+    cheminsCritiques(matrice, margeTot)

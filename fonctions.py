@@ -173,8 +173,6 @@ def dateTard(matrice, rangs):
 def calcul_marges(matrice, rangs):
     d_tot = dateTot(matrice,rangs)
     d_tard = dateTard(matrice,rangs)
-    print(d_tard)
-    print(d_tot)
     #Calcul de la marge totale
     marge_totale = []
     for i in range (len(matrice)):
@@ -210,31 +208,36 @@ def calcul_marges(matrice, rangs):
     headers=["Tâche", "D. au plus tôt", "D. au plus tard", "Marge Totale", "Marge Libre"]
     ))
 
-    trouver_chemins_critiques(matrice, marge_totale)
-    
+    return marge_totale
 
-def trouver_chemins_critiques(matrice, marge_totale):
-    # Fonction interne récursive pour faire une recherche en profondeur 
+
+
+def cheminsCritiques(matrice,marge_totale):
+    matAdj = adjacencePond(matrice)
     def dfs(chemin, noeud_actuel, tous_les_chemins):
-        # Si on atteint le dernier sommet (tâche de fin), on ajoute le chemin trouvé
+        chemin.append(noeud_actuel)  
         if noeud_actuel == len(matrice) - 1:
             tous_les_chemins.append(list(chemin))  
             return
-        
-        for i in range(len(matrice)):
-            # Si la tâche actuelle est un prédécesseur de la tâche i
-            if noeud_actuel in matrice[i][2:] and marge_totale[i] == 0:
-                chemin.append(i)            # On ajoute i au chemin en cours
-                dfs(chemin, i, tous_les_chemins)  # Appel récursif depuis la tâche i
-                chemin.pop()               
-
+        ligneAdj = matAdj[noeud_actuel]
+    
+        succ = [j for j, z in enumerate(ligneAdj) if z is not None]
+        for i in succ:
+            dfs(chemin,i,tous_les_chemins)
+            chemin.pop()
+    
     tous_les_chemins = []
-    dfs([0], 0, tous_les_chemins)
+    dfs([], 0, tous_les_chemins)
+
+    chemins_critiques = [
+        chemin for chemin in tous_les_chemins if all(marge_totale[i] <= 0 for i in chemin)
+    ]
+
     print("\nCHEMINS CRITIQUES :")
-    for chemin in tous_les_chemins:
+    for chemin in chemins_critiques:
         print(" → ".join(map(str, chemin)))
+        
+        
 
-
-                    
                 
 
