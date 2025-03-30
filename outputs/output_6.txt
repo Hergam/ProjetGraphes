@@ -1,23 +1,86 @@
-  Sommet    Durée    1    2    3
---------  -------  ---  ---  ---
-       0        0
-       1       10    0
-       2       10    0
-       3        9    1    2
-       4        5    1    2
-       5        4    4
-       6        2    5
-       7        2    4
-       8        4    5    7    9
-       9        8    3    4
-      10       12    3    9
-      11        2    6    8   10
-      12       20    1    6
-      13        0   11   12
+Remplissage de la matrice des valeurs : 
+0  ->  1  =  0
+0  ->  2  =  0
+1  ->  3  =  10
+2  ->  3  =  10
+1  ->  4  =  10
+2  ->  4  =  10
+4  ->  5  =  5
+5  ->  6  =  4
+4  ->  7  =  5
+5  ->  8  =  4
+7  ->  8  =  2
+9  ->  8  =  8
+3  ->  9  =  9
+4  ->  9  =  5
+3  ->  10  =  9
+9  ->  10  =  8
+6  ->  11  =  2
+8  ->  11  =  4
+10  ->  11  =  12
+1  ->  12  =  10
+6  ->  12  =  2
+11  ->  13  =  2
+12  ->  13  =  20
 
-Ce graphe ne contient pas de circuit
+
+  Tâche  0    1    2    3    4    5    6    7    8    9    10    11    12    13
+-------  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ----  ----  ----  ----
+      0  *    0    0    *    *    *    *    *    *    *    *     *     *     *
+      1  *    *    *    10   10   *    *    *    *    *    *     *     10    *
+      2  *    *    *    10   10   *    *    *    *    *    *     *     *     *
+      3  *    *    *    *    *    *    *    *    *    9    9     *     *     *
+      4  *    *    *    *    *    5    *    5    *    5    *     *     *     *
+      5  *    *    *    *    *    *    4    *    4    *    *     *     *     *
+      6  *    *    *    *    *    *    *    *    *    *    *     2     2     *
+      7  *    *    *    *    *    *    *    *    2    *    *     *     *     *
+      8  *    *    *    *    *    *    *    *    *    *    *     4     *     *
+      9  *    *    *    *    *    *    *    *    8    *    8     *     *     *
+     10  *    *    *    *    *    *    *    *    *    *    *     12    *     *
+     11  *    *    *    *    *    *    *    *    *    *    *     *     *     2
+     12  *    *    *    *    *    *    *    *    *    *    *     *     *     20
+     13  *    *    *    *    *    *    *    *    *    *    *     *     *     *
+
+
+DETECTION DE CIRCUIT : 
+Méthode de suppression des sommets
+
+Sommets restants :  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [0]
+Leur rang est : 0
+
+Sommets restants :  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [1, 2]
+Leur rang est : 1
+
+Sommets restants :  [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [3, 4]
+Leur rang est : 2
+
+Sommets restants :  [5, 6, 7, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [5, 7, 9]
+Leur rang est : 3
+
+Sommets restants :  [6, 8, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [6, 8, 10]
+Leur rang est : 4
+
+Sommets restants :  [11, 12, 13]
+sommets supprimé(s) à cette itération :  [11, 12]
+Leur rang est : 5
+
+Sommets restants :  [13]
+sommets supprimé(s) à cette itération :  [13]
+Leur rang est : 6
+
+Sommets restants :  []
+
+pas de sommet supprimable a cette iteration, fin de l'algorithme
+
+Il n'y a plus de sommets dans la liste des sommets restants, il n'y a donc pas de circuit dans ce graphe
 
 Ce graphe ne contient pas d'arc a valeur négative
+
 
 
 RANGS :
@@ -26,6 +89,149 @@ RANGS :
     0      1      3      5      6     11     13
            2      4      7      8     12
                          9     10
+
+
+DATES AU PLUS TOT : 
+
+création d'une liste de tout les sommets ordonnés par ordre de rangs : 
+ [0, 1, 2, 3, 4, 5, 7, 9, 6, 8, 10, 11, 12, 13]
+
+Sommet : 1
+Prédécesseurs :  [0]
+Prédécésseur ayant la d_tot+durée la plus petite est :  0
+d_tot(sommet) =  0
+
+Sommet : 2
+Prédécesseurs :  [0]
+Prédécésseur ayant la d_tot+durée la plus petite est :  0
+d_tot(sommet) =  0
+
+Sommet : 3
+Prédécesseurs :  [1, 2]
+Prédécésseur ayant la d_tot+durée la plus petite est :  2
+d_tot(sommet) =  10
+
+Sommet : 4
+Prédécesseurs :  [1, 2]
+Prédécésseur ayant la d_tot+durée la plus petite est :  2
+d_tot(sommet) =  10
+
+Sommet : 5
+Prédécesseurs :  [4]
+Prédécésseur ayant la d_tot+durée la plus petite est :  4
+d_tot(sommet) =  15
+
+Sommet : 7
+Prédécesseurs :  [4]
+Prédécésseur ayant la d_tot+durée la plus petite est :  4
+d_tot(sommet) =  15
+
+Sommet : 9
+Prédécesseurs :  [3, 4]
+Prédécésseur ayant la d_tot+durée la plus petite est :  3
+d_tot(sommet) =  19
+
+Sommet : 6
+Prédécesseurs :  [5]
+Prédécésseur ayant la d_tot+durée la plus petite est :  5
+d_tot(sommet) =  19
+
+Sommet : 8
+Prédécesseurs :  [5, 7, 9]
+Prédécésseur ayant la d_tot+durée la plus petite est :  9
+d_tot(sommet) =  27
+
+Sommet : 10
+Prédécesseurs :  [3, 9]
+Prédécésseur ayant la d_tot+durée la plus petite est :  9
+d_tot(sommet) =  27
+
+Sommet : 11
+Prédécesseurs :  [6, 8, 10]
+Prédécésseur ayant la d_tot+durée la plus petite est :  10
+d_tot(sommet) =  39
+
+Sommet : 12
+Prédécesseurs :  [1, 6]
+Prédécésseur ayant la d_tot+durée la plus petite est :  6
+d_tot(sommet) =  21
+
+Sommet : 13
+Prédécesseurs :  [11, 12]
+Prédécésseur ayant la d_tot+durée la plus petite est :  12
+d_tot(sommet) =  41
+
+
+DATES AU PLUS TARD : 
+
+création d'une liste de tout les sommets ordonnés par ordre de rangs inverse : 
+ [13, 11, 12, 6, 8, 10, 5, 7, 9, 3, 4, 1, 2, 0]
+
+Sommet : 11
+Succésseurs :  [13]
+Succésseur ayant la d_tard la plus petite est :  13
+d_tard(sommet) =  39
+
+Sommet : 12
+Succésseurs :  [13]
+Succésseur ayant la d_tard la plus petite est :  13
+d_tard(sommet) =  21
+
+Sommet : 6
+Succésseurs :  [11, 12]
+Succésseur ayant la d_tard la plus petite est :  12
+d_tard(sommet) =  19
+
+Sommet : 8
+Succésseurs :  [11]
+Succésseur ayant la d_tard la plus petite est :  11
+d_tard(sommet) =  35
+
+Sommet : 10
+Succésseurs :  [11]
+Succésseur ayant la d_tard la plus petite est :  11
+d_tard(sommet) =  27
+
+Sommet : 5
+Succésseurs :  [6, 8]
+Succésseur ayant la d_tard la plus petite est :  8
+d_tard(sommet) =  15
+
+Sommet : 7
+Succésseurs :  [8]
+Succésseur ayant la d_tard la plus petite est :  8
+d_tard(sommet) =  33
+
+Sommet : 9
+Succésseurs :  [8, 10]
+Succésseur ayant la d_tard la plus petite est :  10
+d_tard(sommet) =  19
+
+Sommet : 3
+Succésseurs :  [9, 10]
+Succésseur ayant la d_tard la plus petite est :  10
+d_tard(sommet) =  10
+
+Sommet : 4
+Succésseurs :  [5, 7, 9]
+Succésseur ayant la d_tard la plus petite est :  9
+d_tard(sommet) =  10
+
+Sommet : 1
+Succésseurs :  [3, 4, 12]
+Succésseur ayant la d_tard la plus petite est :  12
+d_tard(sommet) =  0
+
+Sommet : 2
+Succésseurs :  [3, 4]
+Succésseur ayant la d_tard la plus petite est :  4
+d_tard(sommet) =  0
+
+Sommet : 0
+Succésseurs :  [1, 2]
+Succésseur ayant la d_tard la plus petite est :  2
+d_tard(sommet) =  0
+
 
 RÉCAPITULATIF DES MARGES :
   Tâche    D. au plus tôt    D. au plus tard    Marge Totale    Marge Libre
@@ -45,7 +251,35 @@ RÉCAPITULATIF DES MARGES :
      12                21                 21               0              0
      13                41                 41               0              0
 
-CHEMINS CRITIQUES :
+
+CALCUL DES CHEMINS CRITIQUES :
+
+On cherche d'abord tout les chemins existant (pas de détail car la trace deviendrai gigantesque pour certains tableaux de contraintes)
+
+TOUT LES CHEMINS EXISTANTS : 
+0 → 1 → 3 → 9 → 8 → 11 → 13
+0 → 1 → 3 → 9 → 10 → 11 → 13
+0 → 1 → 3 → 10 → 11 → 13
+0 → 1 → 4 → 5 → 6 → 11 → 13
+0 → 1 → 4 → 5 → 6 → 12 → 13
+0 → 1 → 4 → 5 → 8 → 11 → 13
+0 → 1 → 4 → 7 → 8 → 11 → 13
+0 → 1 → 4 → 9 → 8 → 11 → 13
+0 → 1 → 4 → 9 → 10 → 11 → 13
+0 → 1 → 12 → 13
+0 → 2 → 3 → 9 → 8 → 11 → 13
+0 → 2 → 3 → 9 → 10 → 11 → 13
+0 → 2 → 3 → 10 → 11 → 13
+0 → 2 → 4 → 5 → 6 → 11 → 13
+0 → 2 → 4 → 5 → 6 → 12 → 13
+0 → 2 → 4 → 5 → 8 → 11 → 13
+0 → 2 → 4 → 7 → 8 → 11 → 13
+0 → 2 → 4 → 9 → 8 → 11 → 13
+0 → 2 → 4 → 9 → 10 → 11 → 13
+
+On supprime ensuite tout les chemins contenant au moins un sommet ayant une marge totale > 0 :
+
+Chemins critiques :
 0 → 1 → 3 → 9 → 10 → 11 → 13
 0 → 1 → 3 → 10 → 11 → 13
 0 → 1 → 4 → 5 → 6 → 11 → 13

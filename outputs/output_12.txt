@@ -1,20 +1,78 @@
-  Sommet    Durée    1    2    3
---------  -------  ---  ---  ---
-       0        0
-       1       10    0
-       2       10    0
-       3        9    1    2   10
-       4        5    1    2
-       5        4    4
-       6        2    5
-       7        2    4
-       8        4    5    7    9
-       9        8    3    4
-      10       12    9
-      11        2    6    8   10
-      12       20    1    6
-      13        0   11   12
+Remplissage de la matrice des valeurs : 
+0  ->  1  =  0
+0  ->  2  =  0
+1  ->  3  =  10
+2  ->  3  =  10
+10  ->  3  =  12
+1  ->  4  =  10
+2  ->  4  =  10
+4  ->  5  =  5
+5  ->  6  =  4
+4  ->  7  =  5
+5  ->  8  =  4
+7  ->  8  =  2
+9  ->  8  =  8
+3  ->  9  =  9
+4  ->  9  =  5
+9  ->  10  =  8
+6  ->  11  =  2
+8  ->  11  =  4
+10  ->  11  =  12
+1  ->  12  =  10
+6  ->  12  =  2
+11  ->  13  =  2
+12  ->  13  =  20
 
-Ce graphe contient un circuit
+
+  Tâche  0    1    2    3    4    5    6    7    8    9    10    11    12    13
+-------  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ----  ----  ----  ----
+      0  *    0    0    *    *    *    *    *    *    *    *     *     *     *
+      1  *    *    *    10   10   *    *    *    *    *    *     *     10    *
+      2  *    *    *    10   10   *    *    *    *    *    *     *     *     *
+      3  *    *    *    *    *    *    *    *    *    9    *     *     *     *
+      4  *    *    *    *    *    5    *    5    *    5    *     *     *     *
+      5  *    *    *    *    *    *    4    *    4    *    *     *     *     *
+      6  *    *    *    *    *    *    *    *    *    *    *     2     2     *
+      7  *    *    *    *    *    *    *    *    2    *    *     *     *     *
+      8  *    *    *    *    *    *    *    *    *    *    *     4     *     *
+      9  *    *    *    *    *    *    *    *    8    *    8     *     *     *
+     10  *    *    *    12   *    *    *    *    *    *    *     12    *     *
+     11  *    *    *    *    *    *    *    *    *    *    *     *     *     2
+     12  *    *    *    *    *    *    *    *    *    *    *     *     *     20
+     13  *    *    *    *    *    *    *    *    *    *    *     *     *     *
+
+
+DETECTION DE CIRCUIT : 
+Méthode de suppression des sommets
+
+Sommets restants :  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [0]
+Leur rang est : 0
+
+Sommets restants :  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [1, 2]
+Leur rang est : 1
+
+Sommets restants :  [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [4]
+Leur rang est : 2
+
+Sommets restants :  [3, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [5, 7]
+Leur rang est : 3
+
+Sommets restants :  [3, 6, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [6]
+Leur rang est : 4
+
+Sommets restants :  [3, 8, 9, 10, 11, 12, 13]
+sommets supprimé(s) à cette itération :  [12]
+Leur rang est : 5
+
+Sommets restants :  [3, 8, 9, 10, 11, 13]
+
+pas de sommet supprimable a cette iteration, fin de l'algorithme
+
+Il reste des sommets non supprimés, il y a donc un circuit dans ce graphe.
 
 Ce graphe n'est pas valide, il n'y aura pas de calcul de calendrier.

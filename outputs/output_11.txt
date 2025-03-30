@@ -1,19 +1,83 @@
-  Sommet    Durée    1    2    3    4
---------  -------  ---  ---  ---  ---
-       0        0
-       1        1    0
-       2        1    1    4
-       3        4    2
-       4        2    1    5
-       5        5    1
-       6        6    4    5
-       7        3    3    5
-       8        0    2    4    6    7
-       9        0    8
+Remplissage de la matrice des valeurs : 
+0  ->  1  =  0
+1  ->  2  =  1
+4  ->  2  =  2
+2  ->  3  =  1
+1  ->  4  =  1
+5  ->  4  =  5
+1  ->  5  =  1
+4  ->  6  =  2
+5  ->  6  =  5
+3  ->  7  =  4
+5  ->  7  =  5
+2  ->  8  =  1
+4  ->  8  =  2
+6  ->  8  =  6
+7  ->  8  =  3
+8  ->  9  =  0
 
-Ce graphe ne contient pas de circuit
+
+  Tâche  0    1    2    3    4    5    6    7    8    9
+-------  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+      0  *    0    *    *    *    *    *    *    *    *
+      1  *    *    1    *    1    1    *    *    *    *
+      2  *    *    *    1    *    *    *    *    1    *
+      3  *    *    *    *    *    *    *    4    *    *
+      4  *    *    2    *    *    *    2    *    2    *
+      5  *    *    *    *    5    *    5    5    *    *
+      6  *    *    *    *    *    *    *    *    6    *
+      7  *    *    *    *    *    *    *    *    3    *
+      8  *    *    *    *    *    *    *    *    *    0
+      9  *    *    *    *    *    *    *    *    *    *
+
+
+DETECTION DE CIRCUIT : 
+Méthode de suppression des sommets
+
+Sommets restants :  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+sommets supprimé(s) à cette itération :  [0]
+Leur rang est : 0
+
+Sommets restants :  [1, 2, 3, 4, 5, 6, 7, 8, 9]
+sommets supprimé(s) à cette itération :  [1]
+Leur rang est : 1
+
+Sommets restants :  [2, 3, 4, 5, 6, 7, 8, 9]
+sommets supprimé(s) à cette itération :  [5]
+Leur rang est : 2
+
+Sommets restants :  [2, 3, 4, 6, 7, 8, 9]
+sommets supprimé(s) à cette itération :  [4]
+Leur rang est : 3
+
+Sommets restants :  [2, 3, 6, 7, 8, 9]
+sommets supprimé(s) à cette itération :  [2, 6]
+Leur rang est : 4
+
+Sommets restants :  [3, 7, 8, 9]
+sommets supprimé(s) à cette itération :  [3]
+Leur rang est : 5
+
+Sommets restants :  [7, 8, 9]
+sommets supprimé(s) à cette itération :  [7]
+Leur rang est : 6
+
+Sommets restants :  [8, 9]
+sommets supprimé(s) à cette itération :  [8]
+Leur rang est : 7
+
+Sommets restants :  [9]
+sommets supprimé(s) à cette itération :  [9]
+Leur rang est : 8
+
+Sommets restants :  []
+
+pas de sommet supprimable a cette iteration, fin de l'algorithme
+
+Il n'y a plus de sommets dans la liste des sommets restants, il n'y a donc pas de circuit dans ce graphe
 
 Ce graphe ne contient pas d'arc a valeur négative
+
 
 
 RANGS :
@@ -21,6 +85,109 @@ RANGS :
 -----  -----  -----  -----  -----  -----  -----  -----  -----
     0      1      5      4      2      3      7      8      9
                                 6
+
+
+DATES AU PLUS TOT : 
+
+création d'une liste de tout les sommets ordonnés par ordre de rangs : 
+ [0, 1, 5, 4, 2, 6, 3, 7, 8, 9]
+
+Sommet : 1
+Prédécesseurs :  [0]
+Prédécésseur ayant la d_tot+durée la plus petite est :  0
+d_tot(sommet) =  0
+
+Sommet : 5
+Prédécesseurs :  [1]
+Prédécésseur ayant la d_tot+durée la plus petite est :  1
+d_tot(sommet) =  1
+
+Sommet : 4
+Prédécesseurs :  [1, 5]
+Prédécésseur ayant la d_tot+durée la plus petite est :  5
+d_tot(sommet) =  6
+
+Sommet : 2
+Prédécesseurs :  [1, 4]
+Prédécésseur ayant la d_tot+durée la plus petite est :  4
+d_tot(sommet) =  8
+
+Sommet : 6
+Prédécesseurs :  [4, 5]
+Prédécésseur ayant la d_tot+durée la plus petite est :  4
+d_tot(sommet) =  8
+
+Sommet : 3
+Prédécesseurs :  [2]
+Prédécésseur ayant la d_tot+durée la plus petite est :  2
+d_tot(sommet) =  9
+
+Sommet : 7
+Prédécesseurs :  [3, 5]
+Prédécésseur ayant la d_tot+durée la plus petite est :  3
+d_tot(sommet) =  13
+
+Sommet : 8
+Prédécesseurs :  [2, 4, 6, 7]
+Prédécésseur ayant la d_tot+durée la plus petite est :  7
+d_tot(sommet) =  16
+
+Sommet : 9
+Prédécesseurs :  [8]
+Prédécésseur ayant la d_tot+durée la plus petite est :  8
+d_tot(sommet) =  16
+
+
+DATES AU PLUS TARD : 
+
+création d'une liste de tout les sommets ordonnés par ordre de rangs inverse : 
+ [9, 8, 7, 3, 2, 6, 4, 5, 1, 0]
+
+Sommet : 8
+Succésseurs :  [9]
+Succésseur ayant la d_tard la plus petite est :  9
+d_tard(sommet) =  16
+
+Sommet : 7
+Succésseurs :  [8]
+Succésseur ayant la d_tard la plus petite est :  8
+d_tard(sommet) =  13
+
+Sommet : 3
+Succésseurs :  [7]
+Succésseur ayant la d_tard la plus petite est :  7
+d_tard(sommet) =  9
+
+Sommet : 2
+Succésseurs :  [3, 8]
+Succésseur ayant la d_tard la plus petite est :  8
+d_tard(sommet) =  8
+
+Sommet : 6
+Succésseurs :  [8]
+Succésseur ayant la d_tard la plus petite est :  8
+d_tard(sommet) =  10
+
+Sommet : 4
+Succésseurs :  [2, 6, 8]
+Succésseur ayant la d_tard la plus petite est :  8
+d_tard(sommet) =  6
+
+Sommet : 5
+Succésseurs :  [4, 6, 7]
+Succésseur ayant la d_tard la plus petite est :  7
+d_tard(sommet) =  1
+
+Sommet : 1
+Succésseurs :  [2, 4, 5]
+Succésseur ayant la d_tard la plus petite est :  5
+d_tard(sommet) =  0
+
+Sommet : 0
+Succésseurs :  [1]
+Succésseur ayant la d_tard la plus petite est :  1
+d_tard(sommet) =  0
+
 
 RÉCAPITULATIF DES MARGES :
   Tâche    D. au plus tôt    D. au plus tard    Marge Totale    Marge Libre
@@ -36,7 +203,28 @@ RÉCAPITULATIF DES MARGES :
       8                16                 16               0              0
       9                16                 16               0              0
 
-CHEMINS CRITIQUES :
+
+CALCUL DES CHEMINS CRITIQUES :
+
+On cherche d'abord tout les chemins existant (pas de détail car la trace deviendrai gigantesque pour certains tableaux de contraintes)
+
+TOUT LES CHEMINS EXISTANTS : 
+0 → 1 → 2 → 3 → 7 → 8 → 9
+0 → 1 → 2 → 8 → 9
+0 → 1 → 4 → 2 → 3 → 7 → 8 → 9
+0 → 1 → 4 → 2 → 8 → 9
+0 → 1 → 4 → 6 → 8 → 9
+0 → 1 → 4 → 8 → 9
+0 → 1 → 5 → 4 → 2 → 3 → 7 → 8 → 9
+0 → 1 → 5 → 4 → 2 → 8 → 9
+0 → 1 → 5 → 4 → 6 → 8 → 9
+0 → 1 → 5 → 4 → 8 → 9
+0 → 1 → 5 → 6 → 8 → 9
+0 → 1 → 5 → 7 → 8 → 9
+
+On supprime ensuite tout les chemins contenant au moins un sommet ayant une marge totale > 0 :
+
+Chemins critiques :
 0 → 1 → 2 → 3 → 7 → 8 → 9
 0 → 1 → 2 → 8 → 9
 0 → 1 → 4 → 2 → 3 → 7 → 8 → 9
