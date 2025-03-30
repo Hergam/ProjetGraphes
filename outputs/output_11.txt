@@ -1,4 +1,4 @@
-  Sommet    Durée    1    2    3    4
+  Sommet    Dur�e    1    2    3    4
 --------  -------  ---  ---  ---  ---
        0        0
        1        1    0
@@ -13,7 +13,7 @@
 
 Ce graphe ne contient pas de circuit
 
-Ce graphe ne contient pas d'arc a valeur négative
+Ce graphe ne contient pas d'arc a valeur n�gative
 
 
 RANGS :
@@ -22,8 +22,8 @@ RANGS :
     0      1      5      4      2      3      7      8      9
                                 6
 
-RÉCAPITULATIF DES MARGES :
-  Tâche    D. au plus tôt    D. au plus tard    Marge Totale    Marge Libre
+R�CAPITULATIF DES MARGES :
+  T�che    D. au plus t�t    D. au plus tard    Marge Totale    Marge Libre
 -------  ----------------  -----------------  --------------  -------------
       0                 0                  0               0              0
       1                 0                  0               0              0
@@ -37,12 +37,3 @@ RÉCAPITULATIF DES MARGES :
       9                16                 16               0              0
 
 CHEMINS CRITIQUES :
-0 → 1 → 2 → 3 → 7 → 8 → 9
-0 → 1 → 2 → 8 → 9
-0 → 1 → 4 → 2 → 3 → 7 → 8 → 9
-0 → 1 → 4 → 2 → 8 → 9
-0 → 1 → 4 → 8 → 9
-0 → 1 → 5 → 4 → 2 → 3 → 7 → 8 → 9
-0 → 1 → 5 → 4 → 2 → 8 → 9
-0 → 1 → 5 → 4 → 8 → 9
-0 → 1 → 5 → 7 → 8 → 9

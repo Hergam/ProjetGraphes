@@ -166,37 +166,59 @@ def dateTard(matrice, rangs):
     return dateTa
 
 def calcul_marges(matrice, rangs):
-    d_tot = dateTot(matrice,rangs)
-    d_tard = dateTard(matrice,rangs)
-    #Calcul de la marge totale
+    # On récupère les dates au plus tôt pour chaque tâche
+    d_tot = dateTot(matrice, rangs)
+    
+    # On récupère les dates au plus tard pour chaque tâche
+    d_tard = dateTard(matrice, rangs)
+
+    
+    # CALCUL DES MARGES TOTALES
+    
     marge_totale = []
-    for i in range (len(matrice)):
+
+    for i in range(len(matrice)):
+        # La marge totale est la différence entre la date au plus tard et la date au plus tôt
+        # Si elle vaut 0, la tâche est critique
         marge = d_tard[i] - d_tot[i]
         marge_totale.append(marge)
 
+    
+    # CALCUL DES MARGES LIBRES
+
     marge_libre = []
-    for i in range (len(matrice)):
+
+    for i in range(len(matrice)):
         successeurs = []
 
-        
-        for j in range (len(matrice)):
+        # On cherche tous les successeurs de la tâche i
+        for j in range(len(matrice)):
+            # Si la tâche i est un prédécesseur de la tâche j
             if i in matrice[j][2:]:
                 successeurs.append(j)
-               
-        
+
+        # Si la tâche a des successeurs
         if successeurs:
+            # On initialise avec la date au plus tôt du premier successeur
             min_d_tot_succ = d_tot[successeurs[0]]
+
+            # On cherche le plus petit d_tot parmi les successeurs
             for j in successeurs:
                 if d_tot[j] < min_d_tot_succ:
                     min_d_tot_succ = d_tot[j]
+
+            # La marge libre est la date au plus tôt du plus rapide des successeurs
+            # moins (la date au plus tôt de la tâche + sa durée)
             marge = min_d_tot_succ - (d_tot[i] + matrice[i][1])
-        
         else:
+            # Si la tâche n'a pas de successeurs, sa marge libre = marge totale
             marge = marge_totale[i]
-        
+
         marge_libre.append(marge)
 
+    # On retourne les deux listes de marges
     return marge_totale, marge_libre
+
 
 def cheminsCritiques(matrice,marge_totale):
     matAdj = adjacencePond(matrice)
