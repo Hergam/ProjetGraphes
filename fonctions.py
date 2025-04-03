@@ -189,8 +189,8 @@ def dateTot(matrice,rangs,matAdj,f):
                 if dateTo[z]+matrice[z][1]>=dateTo[cell]: #si date au plus tot(prédécésseur)+Durée Tache(prédécésseur)>date au plus tot actuelle du sommet,
                     dateTo[cell]=dateTo[z]+matrice[z][1]  # date au plus tot actuelle du sommet = date au plus tot(prédécésseur)+Durée Tache(prédécésseur)
                     pred_choisi = z
-            print("Prédécésseur ayant la d_tot+durée la plus petite est : ",pred_choisi,file=f)
-            print("Prédécésseur ayant la d_tot+durée la plus petite est : ",pred_choisi)
+            print("Prédécésseur ayant la d_tot+durée la plus grande est : ",pred_choisi,file=f)
+            print("Prédécésseur ayant la d_tot+durée la plus grande est : ",pred_choisi)
             print("d_tot(sommet) = ",dateTo[cell],file=f)
             print("d_tot(sommet) = ",dateTo[cell])
     return dateTo
