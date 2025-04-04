@@ -302,8 +302,8 @@ def cheminsCritiques(matrice,marge_totale,matAdj,f):
     print("\nTOUT LES CHEMINS EXISTANTS : ",file=f)
     print("\nTOUT LES CHEMINS EXISTANTS : ")
     for chemin in tous_les_chemins:
-                print(" → ".join(map(str, chemin)),file=f) # Affichage des chemins critiques
-                print(" → ".join(map(str, chemin)))
+                print(" => ".join(map(str, chemin)),file=f) # Affichage des chemins critiques
+                print(" => ".join(map(str, chemin)))
     
     print("\nOn supprime ensuite tout les chemins contenant au moins un sommet ayant une marge totale > 0 :",file=f)
     print("\nOn supprime ensuite tout les chemins contenant au moins un sommet ayant une marge totale > 0 :")

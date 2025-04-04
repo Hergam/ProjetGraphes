@@ -76,5 +76,5 @@ while numTableau != "exit":
             print("\nChemins critiques :" ,file=f)
             print("\nChemins critiques :")
             for chemin in chemins_critiques:
-                print(" → ".join(map(str, chemin)),file=f) # Affichage des chemins critiques
-                print(" → ".join(map(str, chemin)))
+                print(" => ".join(map(str, chemin)),file=f) # Affichage des chemins critiques
+                print(" => ".join(map(str, chemin)))
